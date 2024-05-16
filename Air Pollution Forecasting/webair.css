@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Sticky Header */
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Align items with space between */
+    align-items: center; /* Vertically center items */
+    padding: 20px; /* Add padding for spacing */
+    background-color: #333; /* Dark background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    border-radius: 10px; /* Add rounded corners */
+}
+
+.navbar-brand {
+    font-size: 24px; /* Increase font size for brand */
+    color: #fff; /* White color for brand */
+    text-decoration: none; /* Remove underline */
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list li {
+    margin-right: 20px; /* Add spacing between list items */
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #fff; /* White color for links */
+    font-size: 18px; /* Adjust font size */
+    transition: color 0.3s; /* Add transition effect for color change */
+}
+
+.nav-list li a:hover {
+    color: #ff9900; /* Change color on hover */
+}
+.search-bar {
+    position: relative; /* Position relative for absolute positioning */
+    width: 50%;
+    border-radius: 30px; /* Increase border radius for a more rounded shape */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+#search {
+    width: 100%; /* Make the input fill the entire width */
+    padding: 10px 20px; /* Add padding for better appearance */
+    font-size: 18px; /* Increase font size for better readability */
+    border: none; /* Remove border */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    border-radius: 30px; /* Match border radius with .search-bar */
+    outline: none; /* Remove outline */
+    transition: background-color 0.3s; /* Add transition effect */
+}
+
+#search:focus {
+    background-color: rgba(255, 255, 255, 1); /* Change background color on focus */
+}
+
+.search-button {
+    position: absolute; /* Position absolute for overlay */
+    top: 50%; /* Align button vertically */
+    right: 10px; /* Adjust right spacing */
+    transform: translateY(-50%); /* Center vertically */
+    padding: 12px 24px; /* Add padding */
+    background-color: #ff9900; /* Change button color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 30px; /* Match border radius with input */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add transition effect */
+}
+
+.search-button:hover {
+    background-color: #ff6600; /* Darker color on hover */
+}
+
+.background {
+    background: rgba(0, 0, 0, 0.7) url('po.jpg');
+    background-size: cover;
+    background-blend-mode: darken;
+}
+
+/* ... (rest of your CSS remains the same) ... */
+
+/* ... (rest of your CSS remains the same) ... */
+
+.heading{
+   
+
+}
+.mainheading {
+    display: flex;
+    justify-content: center;
+    color: white; /* Set text color to white */
+    padding-top: 270px; /* Adjust padding */
+    font-size: 60px; /* Decrease font size */
+    font-family: 'Arial', sans-serif; /* Change font family */
+    font-weight: bold; /* Add font weight */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 2px; /* Add letter spacing */
+    text-align: center; /* Center align text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow for better visibility */
+}
+
+.calculate-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add border-radius */
+    background-color: #bf6039; /* Button background color */
+    color: white; /* Button text color */
+    border: 2px solid aliceblue; /* Use solid border */
+    cursor: pointer;
+    transition: transform 0.2s; /* Add transition effect */
+}
+
+.calculate-button:hover {
+    transform: scale(1.8); /* Increase size on hover */
+}
+
+.aqi-display{
+
+}
+.rtq{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    padding: 70px 0px 0px 20px;
+    font-size: 40px;
+
+}
+.lo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    padding: 30px 0px 0px 20px;
+
+
+}
+.va{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    padding: 10px 0px 0px 20px;
+
+}
+#location {
+    display: inline-block;
+    padding: 6px 12px; /* Add padding */
+    color: #e67300; /* Change text color to a shade of orange */
+    font-size: 16px;
+    font-family: "Roboto", Arial, sans-serif; /* Change font family to Roboto, with Arial and sans-serif as fallback */
+    font-weight: bold; /* Add font weight */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 1px; /* Add letter spacing */
+    transition: color 0.3s ease; /* Add transition effect for color */
+}
+
+
+#location:hover {
+    color: #cc5200; /* Darken text color on hover */
+    border-color: #cc5200; /* Darken border color on hover */
+}
+
+#aqi-value {
+    display: inline-block;
+    padding: 8px 16px; /* Reduce padding for a smaller size */
+    
+    color: #cc5200;
+    font-size: 18px; /* Reduce font size */
+    border-radius: 4px; /* Reduce border radius */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Reduce box shadow */
+    transition: background-color 0.3s ease;
+}
+
+
+
+.historical-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffcc00; /* Change text color to yellow */
+    padding: 70px 0px 0px 20px;
+    font-size: 40px;
+    font-family: 'Arial', sans-serif; /* Change font family */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+}
+
+.gif-container {
+    text-align: center;
+    padding: 20px;
+
+   /* Background color for the container */
+}
+.about-us {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 70px 20px; /* Adjust padding to create space around the content */
+    font-size: 24px; /* Increase font size for better readability */
+    text-align: center; /* Center-align the text for better presentation */
+    background-color: rgba(255, 255, 255, 0.1); /* Add a semi-transparent background for contrast */
+    border-radius: 10px; /* Apply rounded corners for a softer look */
+
+    /* Add a subtle shadow effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+
+    /* Add hover effect */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Add smooth transitions */
+}
+
+.about-us:hover {
+    transform: translateY(-3px); /* Move the element up slightly on hover */
+    background-color: rgba(255, 255, 255, 0.2); /* Darken the background color on hover */
+}
+
+.news {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 70px 0; /* Adjusted padding */
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to right, #333, #555); /* Added gradient background */
+    border-radius: 10px; /* Added border radius */
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); /* Added box shadow */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.news a {
+    color: #ffcc00;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.news a:hover {
+    color: #ff9900;
+}
+
+
+.foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: aliceblue;
+    padding: 20px; /* Add padding to create space around the content */
+    font-size: 14px; /* Increase font size for better readability */
+
+    /* Add decorative border and shadow */
+    border-top: 2px solid #bf6039; /* Add a top border with accent color */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow effect */
+}
+
+/* Add animation for hover effect */
+.foot:hover {
+    transform: translateY(-3px); /* Move the footer up slightly on hover */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+}
+
+/* Existing CSS styles here */
+

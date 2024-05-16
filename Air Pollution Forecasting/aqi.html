@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Pollution Forecasting in NCR</title>
+    <style>
+        /* CSS Styles */
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(to bottom right, #f0f0f0, #e0e0e0); /* Add a gradient background */
+    background-size: cover; /* Cover the entire viewport */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+}
+
+
+        header {
+            background-color: #003f5c;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to create space between header and content */
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 20px 0;
+        }
+
+/* Additional style for the content section */
+.content {
+    border-radius: 10px; /* Add border radius */
+    margin: 0 auto; /* Center the content horizontally */
+    max-width: 800px; /* Limit the maximum width of the content */
+}
+
+
+       /* Style for the AQI prediction form */
+.aqi-prediction-form {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9; /* Add background color */
+    border-radius: 10px; /* Add border radius */
+}
+
+
+        /* Style for labels */
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #333; /* Change text color */
+    font-size: 16px; /* Adjust font size */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 1px; /* Add letter spacing */
+}
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc; /* Add border for text inputs */
+            border-radius: 5px; /* Add border radius */
+            box-sizing: border-box; /* Ensure padding and border are included in the width */
+        }
+
+        input[type="submit"] {
+    background-color: #0073e6;
+    color: #fff;
+    padding: 10px 20px;
+    border: 2px solid #0073e6; /* Add border */
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Add transition effect for color and border */
+}
+
+input[type="submit"]:hover {
+    background-color: #0058a1;
+    border-color: #0058a1; /* Change border color on hover */
+}
+
+
+        p#prediction_text {
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* AQI color categories */
+        .aqi-good {
+            background-color: #00e400;
+            color: #000;
+        }
+
+        .aqi-moderate {
+            background-color: #ffbb00;
+            color: #000;
+        }
+
+        .aqi-Poor {
+            background-color: orange;
+            color: #fff;
+        }
+
+        .aqi-Unhealthy {
+            background-color: red;
+            color: #fff;
+        }
+
+        .aqi-Very-Unhealthy {
+            background-color: purple;
+            color: #fff;
+        }
+
+        .aqi-hazardous {
+            background-color: maroon;
+            color: #fff;
+        }
+
+        /* Customize the map container */
+#map {
+    height: 400px;
+    margin-top: 20px; /* Add margin to create space between form and map */
+    border-radius: 10px; /* Add border-radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+}
+
+/* Add some interactivity on hover */
+#map:hover {
+    transform: scale(1.01); /* Increase size on hover */
+    transition: transform 0.3s ease; /* Add transition effect */
+}
+
+    </style>
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+</head>
+<body>
+    <header>
+        <h1>Air Pollution Forecasting in NCR</h1>
+    </header>
+    <div class="content">
+        <div class="aqi-prediction-form">
+            <form id="aqi-form" method="POST" action="/predict">
+                <label for="SO2i">SO2: </label>
+                <input type="text" name="SO2i" required><br>
+
+                <label for="NO2i">NO2: </label>
+                <input type="text" name="NO2i" required><br>
+
+                <label for="O3i">O3: </label>
+                <input type="text" name="O3i" required><br>
+
+                <label for="PM25i">PM25: </label>
+                <input type="text" name="PM25i" required><br>
+
+                <label for="PM10i">PM10: </label>
+                <input type="text" name="PM10i" required><br>
+
+                <label for="COi">CO: </label>
+                <input type="text" name="COi" required><br>
+
+                <input type="submit" value="Predict AQI">
+            </form>
+            <p id="prediction_text"></p>
+        </div>
+    </div>
+    <style>
+        /* Anomaly Info Section Styles */
+        #anomaly-info {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f7f7f7;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    
+        h2 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        .anomaly-description {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+    
+        .anomaly-description:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+    
+        h3 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #009688;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #666;
+            line-height: 1.6;
+        }
+    
+        strong {
+            color: #000;
+        }
+    
+        /* Hover effect */
+        .anomaly-description:hover {
+            background-color: #f0f0f0;
+        }
+    
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            #anomaly-info {
+                padding: 10px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    
+    </style>
+<!-- Anomaly Info Section -->
+<div id="anomaly-info">
+    <h2>Anomaly Detected</h2>
+
+    <div class="anomaly-description">
+        <h3>SO2 (Sulfur Dioxide):</h3>
+        <p>Sulfur dioxide can cause irritation of the respiratory system, leading to symptoms such as coughing and shortness of breath. Prolonged exposure can exacerbate respiratory conditions like asthma and increase the risk of respiratory infections.</p>
+        <p><strong>Prevention:</strong> Improving air quality through regulations on sulfur content in fuels, using cleaner energy sources, and implementing efficient pollution control technologies in industrial processes.</p>
+        <p><strong>Reasons for Increase:</strong> Increased combustion of sulfur-containing fossil fuels, industrial emissions, and volcanic eruptions.</p>
+    </div>
+
+    <div class="anomaly-description">
+        <h3>NO2 (Nitrogen Dioxide):</h3>
+        <p>Nitrogen dioxide can inflame the lining of the lungs, leading to respiratory issues such as wheezing and reduced lung function. Long-term exposure may increase the risk of respiratory infections and cardiovascular diseases.</p>
+        <p><strong>Prevention:</strong> Promoting cleaner transportation methods, reducing vehicle emissions through emission standards, and implementing technologies to control NO2 emissions in industrial processes.</p>
+        <p><strong>Reasons for Increase:</strong> Combustion of fossil fuels in vehicles and power plants, and agricultural activities involving nitrogen-based fertilizers.</p>
+    </div>
+
+    <div class="anomaly-description">
+        <h3>O3 (Ozone):</h3>
+        <p>Exposure to ozone can cause respiratory symptoms like coughing and throat irritation, worsen existing respiratory conditions, and decrease lung function. It can also trigger asthma attacks and increase susceptibility to respiratory infections.</p>
+        <p><strong>Prevention:</strong> Reducing emissions of precursor pollutants such as volatile organic compounds (VOCs) and nitrogen oxides (NOx), implementing stricter vehicle emission standards, and promoting the use of cleaner energy sources.</p>
+        <p><strong>Reasons for Increase:</strong> Emissions from vehicles and industrial sources, chemical reactions involving precursor pollutants, and natural VOC emissions from vegetation.</p>
+    </div>
+
+    <div class="anomaly-description">
+        <h3>PM2.5 and PM10 (Particulate Matter):</h3>
+        <p>Particulate matter can penetrate deep into the lungs and enter the bloodstream, leading to respiratory and cardiovascular issues such as asthma, bronchitis, heart attacks, and strokes. Prolonged exposure can also increase the risk of lung cancer.</p>
+        <p><strong>Prevention:</strong> Implementing measures to reduce emissions from vehicles and industrial processes, controlling dust from construction and demolition activities, and promoting cleaner energy sources.</p>
+        <p><strong>Reasons for Increase:</strong> Combustion of fossil fuels, construction and demolition activities, agricultural activities, and natural sources like dust storms and wildfires.</p>
+    </div>
+
+    <div class="anomaly-description">
+        <h3>CO (Carbon Monoxide):</h3>
+        <p>Carbon monoxide can impair the delivery of oxygen to the body's tissues and organs, leading to symptoms such as headache, dizziness, nausea, and confusion. High levels of exposure can be fatal.</p>
+        <p><strong>Prevention:</strong> Ensuring proper ventilation in enclosed spaces, maintaining and servicing fuel-burning appliances regularly, and promoting the use of cleaner-burning technologies.</p>
+        <p><strong>Reasons for Increase:</strong> Incomplete combustion of carbon-containing fuels, vehicle emissions, and industrial processes involving combustion.</p>
+    </div>
+</div>
+
+<!-- End of Anomaly Info Section -->
+</div>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JavaScript -->
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    ></script>
+    <script>
+        // JavaScript code
+        document.getElementById("aqi-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const inputValues = Array.from(formData.values());
+
+            // Replace with your actual prediction logic
+            const aqi = Math.floor(Math.random() * 500);
+
+            // Display AQI category and set appropriate class
+            let aqiCategory;
+            if (aqi >= 0 && aqi <= 50) {
+                aqiCategory = "Good";
+                document.getElementById("prediction_text").classList.add("aqi-good");
+            } else if (aqi >= 51 && aqi <= 100) {
+                aqiCategory = "Moderate";
+                document.getElementById("prediction_text").classList.add("aqi-moderate");
+            } else if (aqi >= 101 && aqi <= 200) {
+                aqiCategory = "Poor";
+                document.getElementById("prediction_text").classList.add("aqi-Poor");
+            } else if (aqi >= 201 && aqi <= 300) {
+                aqiCategory = "Unhealthy";
+                document.getElementById("prediction_text").classList.add("aqi-Unhealthy");
+            } else if (aqi >= 301 && aqi <= 400) {
+                aqiCategory = "Very-Unhealthy";
+                document.getElementById("prediction_text").classList.add("aqi-Very-Unhealthy");
+            } else {
+                aqiCategory = "Hazardous";
+                document.getElementById("prediction_text").classList.add("aqi-hazardous");
+            }
+
+            document.getElementById("prediction_text").innerText = `Predicted AQI: ${aqi} (${aqiCategory})`;
+
+            // Here you can add code to update the map with air pollution data
+        });
+
+        // Initialize the map
+        const map = L.map('map').setView([28.6139, 77.2090], 10); // Set initial coordinates and zoom level
+
+        // Add a base map layer (e.g., OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // You can add markers, polygons, and more to the map as needed
+        // For example:
+        L.marker([28.6139, 77.2090]).addTo(map)
+            .bindPopup('National Capital Region (NCR)')
+            .openPopup();
+    </script>
+</body>
+</html>
